@@ -172,19 +172,31 @@ class OpenTypeFont implements BinaryCodable {
   final Map<String, FontTable> tableMap;
 
   HeaderTable get head => tableMap[kHeadTag] as HeaderTable;
+
   MaximumProfileTable get maxp => tableMap[kMaxpTag] as MaximumProfileTable;
+
   IndexToLocationTable get loca => tableMap[kLocaTag] as IndexToLocationTable;
+
   GlyphDataTable get glyf => tableMap[kGlyfTag] as GlyphDataTable;
+
   GlyphSubstitutionTable get gsub =>
       tableMap[kGSUBTag] as GlyphSubstitutionTable;
+
   OS2Table get os2 => tableMap[kOS2Tag] as OS2Table;
+
   PostScriptTable get post => tableMap[kPostTag] as PostScriptTable;
+
   NamingTable get name => tableMap[kNameTag] as NamingTable;
+
   CharacterToGlyphTable get cmap => tableMap[kCmapTag] as CharacterToGlyphTable;
+
   HorizontalHeaderTable get hhea => tableMap[kHheaTag] as HorizontalHeaderTable;
+
   HorizontalMetricsTable get hmtx =>
       tableMap[kHmtxTag] as HorizontalMetricsTable;
+
   CFF1Table get cff => tableMap[kCFFTag] as CFF1Table;
+
   CFF2Table get cff2 => tableMap[kCFF2Tag] as CFF2Table;
 
   bool get isOpenType => offsetTable.isOpenType;
@@ -256,12 +268,15 @@ class OpenTypeFont implements BinaryCodable {
     return glyphList.map((g) {
       if (fontHeight != null) {
         // Not normalizing glyphs, just resizing them according to unitsPerEm
-        return g.resize(fontHeight: fontHeight);
+        return g.resize(fontHeight: fontHeight, ratio: g.metadata.ratio);
       }
 
       if (ascender != null && descender != null) {
         return g
-            .resize(ascender: ascender, descender: descender)
+            .resize(
+                ascender: ascender,
+                descender: descender,
+                ratio: g.metadata.ratio)
             .center(ascender, descender);
       }
 
@@ -271,7 +286,10 @@ class OpenTypeFont implements BinaryCodable {
 
   static void _generateCharCodes(List<GenericGlyph> glyphList) {
     for (var i = 0; i < glyphList.length; i++) {
-      glyphList[i].metadata.charCode = kUnicodePrivateUseAreaStart + i;
+      glyphList[i].metadata.charCode =
+          glyphList[i].metadata.name?.codeUnitAt(0) ??
+              (kUnicodePrivateUseAreaStart + i);
+      // kUnicodePrivateUseAreaStart + i;
     }
   }
 }
