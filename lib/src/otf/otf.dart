@@ -277,7 +277,7 @@ class OpenTypeFont implements BinaryCodable {
                 ascender: ascender,
                 descender: descender,
                 ratio: g.metadata.ratio)
-            .center(ascender, descender);
+            .center(ascender, descender, g.metadata.offset ?? 0);
       }
 
       throw ArgumentError('ascender/descender or fontHeight must not be null');

@@ -15,11 +15,12 @@ import 'outline.dart';
 
 /// Metadata for a generic glyph.
 class GenericGlyphMetadata {
-  GenericGlyphMetadata({this.charCode, this.name, this.ratio});
+  GenericGlyphMetadata({this.charCode, this.name, this.ratio, this.offset});
 
   int? charCode;
   String? name;
   double? ratio;
+  int? offset;
 
   /// Deep copy
   GenericGlyphMetadata copy() {
@@ -92,6 +93,7 @@ class GenericGlyph {
     final metadata = GenericGlyphMetadata(
       name: svg.name,
       ratio: svg.ratio,
+      offset: svg.offset,
     );
 
     return GenericGlyph(outlines, svg.viewBox, metadata);
@@ -214,7 +216,8 @@ class GenericGlyph {
   }
 
   /// Resizes according to ascender/descender or a font height.
-  GenericGlyph resize({int? ascender, int? descender, int? fontHeight, double? ratio}) {
+  GenericGlyph resize(
+      {int? ascender, int? descender, int? fontHeight, double? ratio}) {
     final metrics = this.metrics;
 
     late final int longestSide;
@@ -254,12 +257,12 @@ class GenericGlyph {
     return GenericGlyph(newOutlines, newBounds, metadata);
   }
 
-  GenericGlyph center(int ascender, int descender) {
+  GenericGlyph center(int ascender, int descender, int offset) {
     final metrics = this.metrics;
 
     final offsetX = -metrics.xMin;
-    final offsetY = 0;
-        // (ascender + descender) / 2 - metrics.height / 2 - metrics.yMin;
+    final offsetY =
+        (ascender + descender) / 2 - metrics.height / 2 - metrics.yMin + offset;
 
     final newOutlines = outlines.map((o) {
       final newOutline = o.copy();
