@@ -1,2 +1,2 @@
-const kVendorName = 'Fontify';
-const kVendorUrl = 'https://github.com/westracer/fontify';
+const kVendorName = 'Kreativity Apps';
+const kVendorUrl = 'https://kreativity-9b123.web.app';
