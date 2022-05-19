@@ -268,15 +268,20 @@ class OpenTypeFont implements BinaryCodable {
     return glyphList.map((g) {
       if (fontHeight != null) {
         // Not normalizing glyphs, just resizing them according to unitsPerEm
-        return g.resize(fontHeight: fontHeight, ratio: g.metadata.ratio);
+        return g.resize(
+            fontHeight: fontHeight,
+            ratioX: g.metadata.ratioX,
+            ratioY: g.metadata.ratioY);
       }
 
       if (ascender != null && descender != null) {
         return g
             .resize(
-                ascender: ascender,
-                descender: descender,
-                ratio: g.metadata.ratio)
+              ascender: ascender,
+              descender: descender,
+              ratioX: g.metadata.ratioX,
+              ratioY: g.metadata.ratioY,
+            )
             .center(ascender, descender, g.metadata.offset ?? 0);
       }
 

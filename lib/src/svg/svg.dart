@@ -13,7 +13,8 @@ class Svg extends SvgElement {
     this.viewBox,
     this.elementList,
     XmlElement xmlElement,
-    this.ratio,
+    this.ratioX,
+    this.ratioY,
     this.offset,
   ) : super(null, xmlElement);
 
@@ -54,11 +55,13 @@ class Svg extends SvgElement {
 
     final viewBox = math.Rectangle(fvb[0], fvb[1], fvb[2], fvb[3]);
 
-    final parsedRatio = double.parse(root.getAttribute('ratio') ?? '1');
+    final parsedRatioX = double.parse(root.getAttribute('ratioX') ?? '1');
+    final parsedRatioY = double.parse(root.getAttribute('ratioY') ?? '1');
 
     final parsedOffset = int.parse(root.getAttribute('offset') ?? '0');
 
-    final svg = Svg(name, viewBox, [], root, parsedRatio, parsedOffset);
+    final svg =
+        Svg(name, viewBox, [], root, parsedRatioX, parsedRatioY, parsedOffset);
 
     final elementList = root.parseSvgElements(svg, ignoreShapes);
     svg.elementList.addAll(elementList);
@@ -69,7 +72,8 @@ class Svg extends SvgElement {
   final String name;
   final math.Rectangle viewBox;
   final List<SvgElement> elementList;
-  final double ratio;
+  final double ratioX;
+  final double ratioY;
   final int offset;
 
   @override

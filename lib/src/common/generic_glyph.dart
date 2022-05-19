@@ -15,11 +15,13 @@ import 'outline.dart';
 
 /// Metadata for a generic glyph.
 class GenericGlyphMetadata {
-  GenericGlyphMetadata({this.charCode, this.name, this.ratio, this.offset});
+  GenericGlyphMetadata(
+      {this.charCode, this.name, this.ratioX, this.ratioY, this.offset});
 
   int? charCode;
   String? name;
-  double? ratio;
+  double? ratioX;
+  double? ratioY;
   int? offset;
 
   /// Deep copy
@@ -92,7 +94,8 @@ class GenericGlyph {
 
     final metadata = GenericGlyphMetadata(
       name: svg.name,
-      ratio: svg.ratio,
+      ratioX: svg.ratioX,
+      ratioY: svg.ratioY,
       offset: svg.offset,
     );
 
@@ -216,32 +219,40 @@ class GenericGlyph {
   }
 
   /// Resizes according to ascender/descender or a font height.
-  GenericGlyph resize(
-      {int? ascender, int? descender, int? fontHeight, double? ratio}) {
+  GenericGlyph resize({
+    int? ascender,
+    int? descender,
+    int? fontHeight,
+    double? ratioX,
+    double? ratioY,
+  }) {
     final metrics = this.metrics;
 
     late final int longestSide;
-    late final double sideRatio;
+    late final double sideRatioX;
+    late final double sideRatioY;
 
     if (ascender != null && descender != null) {
       longestSide = math.max(metrics.height, metrics.width);
-      sideRatio = (ascender + descender) / longestSide * (ratio ?? 1);
+      sideRatioX = (ascender + descender) / longestSide * (ratioX ?? 1);
+      sideRatioY = (ascender + descender) / longestSide * (ratioY ?? 1);
     } else if (fontHeight != null) {
       longestSide = bounds.height.toInt();
-      sideRatio = fontHeight / longestSide * (ratio ?? 1);
+      sideRatioX = fontHeight / longestSide * (ratioX ?? 1);
+      sideRatioY = fontHeight / longestSide * (ratioY ?? 1);
     } else {
       throw ArgumentError('Wrong parameters for resizing');
     }
 
     // No need to resize
-    if ((sideRatio - 1).abs() < .02) {
+    if ((sideRatioX - 1).abs() < .02 && (sideRatioY - 1).abs() < .02) {
       return this;
     }
 
     final newOutlines = outlines.map((o) {
       final newOutline = o.copy();
       final newPointList = newOutline.pointList
-          .map((e) => math.Point<num>(e.x, e.y) * sideRatio)
+          .map((e) => math.Point<num>(e.x * sideRatioX, e.y * sideRatioY))
           .toList();
       newOutline.pointList
         ..clear()
@@ -250,8 +261,11 @@ class GenericGlyph {
     }).toList();
 
     final newBounds = math.Rectangle.fromPoints(
-      bounds.bottomLeft.toDoublePoint() * sideRatio,
-      bounds.topRight.toDoublePoint() * sideRatio,
+      math.Point<num>(bounds.bottomLeft.toDoublePoint().x * sideRatioX,
+          bounds.bottomLeft.toDoublePoint().y * sideRatioY),
+      math.Point<num>(bounds.topRight.toDoublePoint().x * sideRatioX,
+          bounds.topRight.toDoublePoint().y * sideRatioY),
+      // bounds.topRight.toDoublePoint() * sideRatio,
     );
 
     return GenericGlyph(newOutlines, newBounds, metadata);
