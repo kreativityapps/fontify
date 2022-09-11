@@ -44,7 +44,7 @@ abstract class CFFTable extends FontTable {
         return CFF2Table.fromByteData(byteData, entry);
     }
 
-    OTFDebugger.debugUnsupportedTableVersion('CFF', major);
+    debugUnsupportedTableVersion('CFF', major);
     return null;
   }
 

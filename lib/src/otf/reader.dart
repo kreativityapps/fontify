@@ -107,7 +107,7 @@ class OTFReader {
       case kCFF2Tag:
         return CFFTable.fromByteData(_byteData, entry);
       default:
-        OTFDebugger.debugUnsupportedTable(entry.tag);
+        debugUnsupportedTable(entry.tag);
         return null;
     }
   }

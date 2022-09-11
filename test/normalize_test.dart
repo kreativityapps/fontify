@@ -27,7 +27,7 @@ void main() {
       final font = OpenTypeFont.createFromGlyphs(
           glyphList: _createGlyphList(), normalize: false);
       final widthList = font.hmtx.hMetrics.map((e) => e.advanceWidth);
-      final unitsPerEm = kDefaultOpenTypeUnitsPerEm;
+      const unitsPerEm = kDefaultOpenTypeUnitsPerEm;
 
       expect(widthList, [350, 333, unitsPerEm, unitsPerEm, unitsPerEm]);
       expect(font.hhea.ascender, 1000);

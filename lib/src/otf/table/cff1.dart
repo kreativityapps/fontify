@@ -172,9 +172,14 @@ class CFF1Table extends CFFTable implements CalculatableOffsets {
     var sidIndex = _cffStandardStringCount;
     final sidList = <int>[];
     final stringIndexDataList = <Uint8List>[];
+    final RegExp _ascii = RegExp(r'^[\x00-\x7F]+$');
 
     int putStringInIndex(String string) {
-      stringIndexDataList.add(Uint8List.fromList(string.codeUnits));
+      String finalString = string;
+      if (!_ascii.hasMatch(finalString)) {
+        finalString = 'Non-ascii character';
+      }
+      stringIndexDataList.add(Uint8List.fromList(finalString.codeUnits));
       sidList.add(sidIndex);
       return sidIndex++;
     }

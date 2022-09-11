@@ -9,9 +9,7 @@ import '../utils/otf.dart';
 
 import 'defaults.dart';
 import 'reader.dart';
-import 'table/abstract.dart';
 import 'table/all.dart';
-import 'table/offset.dart';
 
 /// Ordered list of table tags for encoding (Optimized Table Ordering)
 const _kTableTagsToEncode = {

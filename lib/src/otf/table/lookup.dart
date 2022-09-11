@@ -24,7 +24,7 @@ abstract class SubstitutionSubtable implements BinaryCodable {
       case 4:
         return LigatureSubstitutionSubtable.fromByteData(byteData, offset);
       default:
-        OTFDebugger.debugUnsupportedTableFormat('Lookup', lookupType);
+        debugUnsupportedTableFormat('Lookup', lookupType);
         return null;
     }
   }

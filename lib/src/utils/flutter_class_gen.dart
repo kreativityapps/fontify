@@ -1,5 +1,5 @@
-import 'package:recase/recase.dart';
 import 'package:path/path.dart' as p;
+import 'package:recase/recase.dart';
 
 import '../common/constant.dart';
 import '../common/generic_glyph.dart';

@@ -29,7 +29,7 @@ class GlyphSubstitutionTableHeader implements BinaryCodable {
     final isV10 = version == const Revision(1, 0);
 
     if (!isV10) {
-      OTFDebugger.debugUnsupportedTableVersion(kGSUBTag, version.int32value);
+      debugUnsupportedTableVersion(kGSUBTag, version.int32value);
     }
 
     return GlyphSubstitutionTableHeader(

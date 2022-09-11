@@ -5,9 +5,7 @@ import '../../common/generic_glyph.dart';
 import '../../utils/misc.dart';
 import '../../utils/otf.dart';
 
-import 'abstract.dart';
 import 'all.dart';
-import 'table_record_entry.dart';
 
 const kChecksumMagicNumber = 0xB1B0AFBA;
 

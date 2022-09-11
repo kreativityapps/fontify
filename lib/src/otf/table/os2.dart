@@ -95,7 +95,7 @@ class OS2Table extends FontTable {
     final isV5 = version >= _kVersion5;
 
     if (version > _kVersion5) {
-      OTFDebugger.debugUnsupportedTableVersion(kOS2Tag, version);
+      debugUnsupportedTableVersion(kOS2Tag, version);
     }
 
     return OS2Table._(
@@ -202,11 +202,12 @@ class OS2Table extends FontTable {
         /// Should be made calculated, in case of using other ranges.
 
         1, // Bit 1: Basic Latin. Includes space
-        (1 << 28) | (1 << 25), // Bits 57 & 60: Non-Plane 0 and Private Use Area
+        // (1 << 28) | (1 << 25), // Bits 57 & 60: Non-Plane 0 and Private Use Area
+        1 << 25, // Bits 57 & 60: Non-Plane 0 and Private Use Area
         0,
         0,
         asciiAchVendID,
-        0x40 | 0x80, // REGULAR and USE_TYPO_METRICS
+        0x40, // | 0x80, // REGULAR and USE_TYPO_METRICS
         cmapFormat4subtable.startCode.first,
         cmapFormat4subtable.endCode.last,
         hhea.ascender,
@@ -327,7 +328,7 @@ class OS2Table extends FontTable {
     final isV5 = version >= _kVersion5;
 
     if (version > _kVersion5) {
-      OTFDebugger.debugUnsupportedTableVersion(kOS2Tag, version);
+      debugUnsupportedTableVersion(kOS2Tag, version);
     }
 
     byteData

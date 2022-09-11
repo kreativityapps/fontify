@@ -184,7 +184,7 @@ class NamingTableFormat0Header implements BinaryCodable {
     final format = byteData.getUint16(entry.offset);
 
     if (format != _kFormat0) {
-      OTFDebugger.debugUnsupportedTableFormat(entry.tag, format);
+      debugUnsupportedTableFormat(entry.tag, format);
       return null;
     }
 
@@ -233,7 +233,7 @@ abstract class NamingTable extends FontTable {
       case _kFormat0:
         return NamingTableFormat0.fromByteData(byteData, entry);
       default:
-        OTFDebugger.debugUnsupportedTableFormat(kNameTag, format);
+        debugUnsupportedTableFormat(kNameTag, format);
         return null;
     }
   }
@@ -245,7 +245,7 @@ abstract class NamingTable extends FontTable {
       case _kFormat0:
         return NamingTableFormat0.create(fontName, description, revision);
       default:
-        OTFDebugger.debugUnsupportedTableFormat(kNameTag, format);
+        debugUnsupportedTableFormat(kNameTag, format);
         return null;
     }
   }

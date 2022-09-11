@@ -19,7 +19,7 @@ abstract class CharsetEntry implements BinaryCodable {
       case _kFormat0:
       case _kFormat2:
       default:
-        OTFDebugger.debugUnsupportedTableFormat('charsets', format);
+        debugUnsupportedTableFormat('charsets', format);
     }
 
     return null;

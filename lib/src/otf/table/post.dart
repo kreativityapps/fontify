@@ -99,7 +99,7 @@ abstract class PostScriptData implements BinaryCodable {
       case _kVersion30:
         return PostScriptVersion30();
       default:
-        OTFDebugger.debugUnsupportedTableVersion(kPostTag, version);
+        debugUnsupportedTableVersion(kPostTag, version);
         return null;
     }
   }

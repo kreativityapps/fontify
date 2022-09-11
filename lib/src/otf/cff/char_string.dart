@@ -240,7 +240,7 @@ class CharStringInterpreter {
           case 18: // hstemhm
           case 23: // vstemhm
             _stack.clear();
-            OTFDebugger.debugUnsupportedFeature('CFF hinting not supported');
+            debugUnsupportedFeature('CFF hinting not supported');
             break;
 
           case 4: // vmoveto
@@ -301,21 +301,21 @@ class CharStringInterpreter {
           case 10: // callsubr
           case 29: // callgsubr
             _stack.clear();
-            OTFDebugger.debugUnsupportedFeature('CFF subrs not supported');
+            debugUnsupportedFeature('CFF subrs not supported');
             break;
 
           case 16:
             {
               // blend
               _stack.clear();
-              OTFDebugger.debugUnsupportedFeature('CFF blending not supported');
+              debugUnsupportedFeature('CFF blending not supported');
               break;
             }
 
           case 19: // hintmask
           case 20: // cntrmask
             _stack.clear();
-            OTFDebugger.debugUnsupportedFeature('CFF hinting not supported');
+            debugUnsupportedFeature('CFF hinting not supported');
             break;
 
           case 21: // rmoveto
@@ -462,7 +462,7 @@ class CharStringInterpreter {
                   _pushCommand(_stack.toList().sublist(0, 11), 12, op);
                   break;
                 default:
-                  OTFDebugger.debugUnsupportedFeature(
+                  debugUnsupportedFeature(
                       'Unknown charString op: 12 $op');
                   _stack.clear();
               }
@@ -471,7 +471,7 @@ class CharStringInterpreter {
             }
 
           default:
-            OTFDebugger.debugUnsupportedFeature('Unknown charString op: $op');
+            debugUnsupportedFeature('Unknown charString op: $op');
             _stack.clear();
         }
       }

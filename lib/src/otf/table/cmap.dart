@@ -165,7 +165,7 @@ abstract class CmapData implements BinaryCodable {
       case _kFormat12:
         return CmapSegmentedCoverageTable.fromByteData(byteData, offset);
       default:
-        OTFDebugger.debugUnsupportedTableFormat(kCmapTag, format);
+        debugUnsupportedTableFormat(kCmapTag, format);
         return null;
     }
   }
@@ -179,7 +179,7 @@ abstract class CmapData implements BinaryCodable {
       case _kFormat12:
         return CmapSegmentedCoverageTable.create(segmentList);
       default:
-        OTFDebugger.debugUnsupportedTableFormat(kCmapTag, format);
+        debugUnsupportedTableFormat(kCmapTag, format);
         return null;
     }
   }

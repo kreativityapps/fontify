@@ -28,7 +28,7 @@ class GlyphDataTable extends FontTable {
       final header = GlyphHeader.fromByteData(byteData, headerOffset);
 
       if (header.isComposite) {
-        OTFDebugger.debugUnsupportedFeature(
+        debugUnsupportedFeature(
             'Composite glyph (glyph header offset $headerOffset)');
       } else {
         final glyph = isEmpty

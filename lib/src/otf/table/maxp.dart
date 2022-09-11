@@ -105,7 +105,7 @@ class MaximumProfileTable extends FontTable {
         data.getUint16(entry.offset + 30),
       );
     } else {
-      OTFDebugger.debugUnsupportedTableVersion(entry.tag, version);
+      debugUnsupportedTableVersion(entry.tag, version);
       return null;
     }
   }
@@ -151,7 +151,7 @@ class MaximumProfileTable extends FontTable {
         ..setUint16(28, maxComponentElements!)
         ..setUint16(30, maxComponentDepth!);
     } else if (version != _kVersion0) {
-      OTFDebugger.debugUnsupportedTableVersion(kMaxpTag, version);
+      debugUnsupportedTableVersion(kMaxpTag, version);
     }
   }
 
