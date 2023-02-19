@@ -88,7 +88,7 @@ String Function(List<int>) _getDecoder(NameRecord record) {
     case kPlatformWindows:
       return fromUCS2byteList;
     default:
-      return (charCodes) => String.fromCharCodes(charCodes);
+      return String.fromCharCodes;
   }
 }
 

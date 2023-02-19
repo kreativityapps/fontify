@@ -16,16 +16,16 @@ const _kTestCompSvgPathList = [
 
 void main() {
   group('Normalization', () {
-    List<GenericGlyph> _createGlyphList() {
-      final svgFileList = _kTestCompSvgPathList.map((e) => File(e));
+    List<GenericGlyph> createGlyphList() {
+      final svgFileList = _kTestCompSvgPathList.map(File.new);
       final svgList =
           svgFileList.map((e) => Svg.parse(e.path, e.readAsStringSync()));
-      return svgList.map((e) => GenericGlyph.fromSvg(e)).toList();
+      return svgList.map(GenericGlyph.fromSvg).toList();
     }
 
     test('Metrics, normalization is off', () {
       final font = OpenTypeFont.createFromGlyphs(
-          glyphList: _createGlyphList(), normalize: false);
+          glyphList: createGlyphList(), normalize: false);
       final widthList = font.hmtx.hMetrics.map((e) => e.advanceWidth);
       const unitsPerEm = kDefaultOpenTypeUnitsPerEm;
 
@@ -36,7 +36,7 @@ void main() {
 
     test('Metrics, normalization is on', () {
       final font = OpenTypeFont.createFromGlyphs(
-          glyphList: _createGlyphList(), normalize: true);
+          glyphList: createGlyphList(), normalize: true);
       final widthList = font.hmtx.hMetrics.map((e) => e.advanceWidth);
 
       expect(widthList, [298, 333, 362, 270, 208]);

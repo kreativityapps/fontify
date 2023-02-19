@@ -62,7 +62,7 @@ class MaximumProfileTable extends FontTable {
     return MaximumProfileTable.v1(
         null,
         numGlyphs,
-        glyf!.maxPoints,
+        glyf.maxPoints,
         glyf.maxContours,
         0, // Composite glyphs are not supported
         0, // Composite glyphs are not supported

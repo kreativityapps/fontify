@@ -157,7 +157,7 @@ class CharStringCommand implements BinaryCodable {
   final List<CharStringOperand> operandList;
 
   static List<CharStringOperand> _getOperandList(List<num> operandValues) {
-    return operandValues.map((e) => CharStringOperand(e)).toList();
+    return operandValues.map(CharStringOperand.new).toList();
   }
 
   CharStringCommand copy() => CharStringCommand(operator, [...operandList]);
@@ -214,7 +214,7 @@ class CharStringInterpreter {
   void _pushCommand(Iterable<num?> operandValues, int opB0, [int? opB1]) {
     final command = CharStringCommand(
         CFFOperator(CFFOperatorContext.charString, opB0, opB1),
-        operandValues.map((e) => CharStringOperand(e)).toList());
+        operandValues.map(CharStringOperand.new).toList());
 
     _commandList.add(command);
   }

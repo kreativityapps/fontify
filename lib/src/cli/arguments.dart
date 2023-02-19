@@ -238,7 +238,7 @@ CliArguments parseArgsAndConfig(ArgParser argParser, List<String> args) {
   final configList = <String>[
     if (configFile is String) configFile,
     ..._kDefaultConfigPathList
-  ].map((e) => File(e));
+  ].map(File.new);
 
   for (final configFile in configList) {
     if (configFile.existsSync()) {
@@ -278,7 +278,7 @@ extension CliArgumentMapExtension on Map<CliArgument, dynamic> {
       final allowedTypes = e.value;
 
       if (argType != Null && !allowedTypes.contains(argType)) {
-        throw CliArgumentException("'${argumentNames[arg]}' argument\'s type "
+        throw CliArgumentException("'${argumentNames[arg]}' argument's type "
             'must be one of following: $allowedTypes, '
             "instead got '$argType'.");
       }

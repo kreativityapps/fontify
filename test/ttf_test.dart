@@ -341,7 +341,7 @@ void main() {
           .map((s) => s.string)
           .toList();
       final glyphList = font.glyf.glyphList
-          .map((e) => GenericGlyph.fromSimpleTrueTypeGlyph(e))
+          .map(GenericGlyph.fromSimpleTrueTypeGlyph)
           .toList();
 
       for (var i = 0; i < glyphList.length; i++) {
@@ -442,7 +442,7 @@ void main() {
 
     test('Conversion from TrueType and back', () {
       final genericList = font.glyf.glyphList
-          .map((e) => GenericGlyph.fromSimpleTrueTypeGlyph(e))
+          .map(GenericGlyph.fromSimpleTrueTypeGlyph)
           .toList();
       final simpleList =
           genericList.map((e) => e.toSimpleTrueTypeGlyph()).toList();
@@ -454,7 +454,7 @@ void main() {
 
     test('Decompact and compact back', () {
       final genericList = font.glyf.glyphList
-          .map((e) => GenericGlyph.fromSimpleTrueTypeGlyph(e))
+          .map(GenericGlyph.fromSimpleTrueTypeGlyph)
           .toList();
 
       for (final g in genericList) {

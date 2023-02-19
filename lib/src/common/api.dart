@@ -53,7 +53,7 @@ SvgToOtfResult svgToOtf({
     }
   }
 
-  final glyphList = svgList.map((e) => GenericGlyph.fromSvg(e)).toList();
+  final glyphList = svgList.map(GenericGlyph.fromSvg).toList();
 
   final font = OpenTypeFont.createFromGlyphs(
     glyphList: glyphList,

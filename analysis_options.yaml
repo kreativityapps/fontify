@@ -1,4 +1,4 @@
-include: package:pedantic/analysis_options.1.9.0.yaml
+include: package:lints/recommended.yaml
 
 analyzer:
   exclude: [build/**]
@@ -64,7 +64,6 @@ linter:
     - file_names
     - hash_and_equals
     - implementation_imports
-    - invariant_booleans
     - iterable_contains_unrelated_type
     - join_return_with_assignment
     - library_names

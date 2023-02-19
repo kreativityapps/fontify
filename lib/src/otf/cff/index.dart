@@ -141,7 +141,7 @@ class CFFIndexWithData<T> implements BinaryCodable, CalculatableOffsets {
         return (bd) => Uint8List.fromList(
             bd.buffer.asUint8List(bd.offsetInBytes, bd.lengthInBytes));
       case CFFDict:
-        return (bd) => CFFDict.fromByteData(bd);
+        return CFFDict.fromByteData;
       default:
     }
 

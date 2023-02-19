@@ -43,8 +43,8 @@ const _kDefaultEncodingRecordFormatList = [
   _kFormat12
 ];
 
-class _Segment {
-  _Segment(this.startCode, this.endCode, this.startGlyphID);
+class Segment {
+  Segment(this.startCode, this.endCode, this.startGlyphID);
 
   final int startCode;
   final int endCode;
@@ -170,7 +170,7 @@ abstract class CmapData implements BinaryCodable {
     }
   }
 
-  static CmapData? create(List<_Segment> segmentList, int format) {
+  static CmapData? create(List<Segment> segmentList, int format) {
     switch (format) {
       case _kFormat0:
         return CmapByteEncodingTable.create();
@@ -290,7 +290,7 @@ class CmapSegmentMappingToDeltaValuesTable extends CmapData {
   }
 
   factory CmapSegmentMappingToDeltaValuesTable.create(
-      List<_Segment> segmentList) {
+      List<Segment> segmentList) {
     final startCode = segmentList.map((e) => e.startCode).toList();
     final endCode = segmentList.map((e) => e.endCode).toList();
     final idDelta = segmentList.map((e) => e.idDelta).toList();
@@ -411,7 +411,7 @@ class CmapSegmentedCoverageTable extends CmapData {
                 byteData, offset + 16 + _kSequentialMapGroupSize * i)));
   }
 
-  factory CmapSegmentedCoverageTable.create(List<_Segment> segmentList) {
+  factory CmapSegmentedCoverageTable.create(List<Segment> segmentList) {
     final groups = segmentList
         .map((e) => SequentialMapGroup(e.startCode, e.endCode, e.startGlyphID))
         .toList();
@@ -492,7 +492,7 @@ class CharacterToGlyphTable extends FontTable {
     final segmentList = _generateSegments(charCodeList);
     final segmentListFormat4 = [
       ...segmentList,
-      _Segment(
+      Segment(
           0xFFFF, 0xFFFF, 1) // Format 4 table must end with 0xFFFF char code
     ];
 
@@ -522,13 +522,13 @@ class CharacterToGlyphTable extends FontTable {
   final CharacterToGlyphTableHeader header;
   final List<CmapData> data;
 
-  static List<_Segment> _generateSegments(List<int> charCodeList) {
+  static List<Segment> _generateSegments(List<int> charCodeList) {
     var startCharCode = -1, prevCharCode = -1, startGlyphId = -1;
 
-    final segmentList = <_Segment>[];
+    final segmentList = <Segment>[];
 
     void saveSegment() {
-      segmentList.add(_Segment(
+      segmentList.add(Segment(
           startCharCode, prevCharCode, startGlyphId + 1 // +1 because of .notdef
           ));
     }

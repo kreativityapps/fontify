@@ -32,12 +32,12 @@ class CharsetEntryFormat1 extends CharsetEntry {
   CharsetEntryFormat1(int format, this.rangeList) : super(format);
 
   factory CharsetEntryFormat1.fromByteData(ByteData byteData, int glyphCount) {
-    final rangeList = <_Range1>[];
+    final rangeList = <Range1>[];
 
     var offset = 0;
 
     for (var i = 0; i < glyphCount - 1;) {
-      final range = _Range1.fromByteData(
+      final range = Range1.fromByteData(
         byteData.sublistView(offset, _kRange1Size),
       );
 
@@ -51,7 +51,7 @@ class CharsetEntryFormat1 extends CharsetEntry {
   }
 
   factory CharsetEntryFormat1.create(List<int> sIdList) {
-    final rangeList = <_Range1>[];
+    final rangeList = <Range1>[];
 
     if (sIdList.isNotEmpty) {
       var prevSid = sIdList.first, count = 1;
@@ -59,7 +59,7 @@ class CharsetEntryFormat1 extends CharsetEntry {
       int getNleft() => count - 1;
 
       void saveRange() {
-        rangeList.add(_Range1(prevSid - count + 1, getNleft()));
+        rangeList.add(Range1(prevSid - count + 1, getNleft()));
         count = 0;
       }
 
@@ -81,7 +81,7 @@ class CharsetEntryFormat1 extends CharsetEntry {
     return CharsetEntryFormat1(_kFormat1, rangeList);
   }
 
-  final List<_Range1> rangeList;
+  final List<Range1> rangeList;
 
   @override
   void encodeToBinary(ByteData byteData) {
@@ -98,11 +98,11 @@ class CharsetEntryFormat1 extends CharsetEntry {
   int get size => 1 + rangeList.length * _kRange1Size;
 }
 
-class _Range1 implements BinaryCodable {
-  const _Range1(this.sId, this.nLeft);
+class Range1 implements BinaryCodable {
+  const Range1(this.sId, this.nLeft);
 
-  factory _Range1.fromByteData(ByteData byteData) {
-    return _Range1(byteData.getUint16(0), byteData.getUint8(2));
+  factory Range1.fromByteData(ByteData byteData) {
+    return Range1(byteData.getUint16(0), byteData.getUint8(2));
   }
 
   final int sId;

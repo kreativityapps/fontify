@@ -309,12 +309,13 @@ class GenericGlyph {
     var xMin = kInt32Max, yMin = kInt32Max, xMax = kInt32Min, yMax = kInt32Min;
 
     for (final p in points) {
-      xMin = math.min(xMin, p.x.toInt());
-      xMax = math.max(xMax, p.x.toInt());
-      yMin = math.min(yMin, p.y.toInt());
-      yMax = math.max(yMax, p.y.toInt());
+      if (p.x.isFinite && p.y.isFinite) {
+        xMin = math.min(xMin, p.x.toInt());
+        xMax = math.max(xMax, p.x.toInt());
+        yMin = math.min(yMin, p.y.toInt());
+        yMax = math.max(yMax, p.y.toInt());
+      }
     }
-
     return GenericGlyphMetrics(xMin, xMax, yMin, yMax);
   }
 }
