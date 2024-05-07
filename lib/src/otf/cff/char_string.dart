@@ -11,7 +11,7 @@ import 'operand.dart';
 import 'operator.dart';
 
 class CharStringOperand extends CFFOperand {
-  CharStringOperand(num? value, [int? size]) : super(value, size);
+  CharStringOperand(super.value, [super.size]);
 
   factory CharStringOperand.fromByteData(
       ByteData byteData, int offset, int b0) {
@@ -462,8 +462,7 @@ class CharStringInterpreter {
                   _pushCommand(_stack.toList().sublist(0, 11), 12, op);
                   break;
                 default:
-                  debugUnsupportedFeature(
-                      'Unknown charString op: 12 $op');
+                  debugUnsupportedFeature('Unknown charString op: 12 $op');
                   _stack.clear();
               }
 

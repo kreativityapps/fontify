@@ -38,6 +38,8 @@ class GenericGlyphMetrics {
 
   factory GenericGlyphMetrics.square(int unitsPerEm) =>
       GenericGlyphMetrics(0, unitsPerEm, 0, unitsPerEm);
+  factory GenericGlyphMetrics.rectangle(int unitsPerEmX, int unitsPerEmY) =>
+      GenericGlyphMetrics(0, unitsPerEmX, 0, unitsPerEmY);
 
   final int xMin;
   final int xMax;

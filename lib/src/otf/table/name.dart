@@ -276,7 +276,7 @@ class NamingTableFormat0 extends NamingTable {
       NameID.version: 'Version ${revision.major}.${revision.minor}',
       NameID.postScriptName: fontName.getPostScriptString(),
       NameID.manufacturer: kVendorName,
-      NameID.description: description ?? 'Generated using $kVendorName',
+      NameID.description: description ?? 'Generated using $kAppName',
       NameID.urlVendor: kVendorUrl,
     };
 

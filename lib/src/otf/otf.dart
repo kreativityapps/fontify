@@ -62,6 +62,7 @@ class OpenTypeFont implements BinaryCodable {
   /// Defaults to true.
   factory OpenTypeFont.createFromGlyphs({
     required List<GenericGlyph> glyphList,
+    List<GenericGlyph>? glyphNormalList,
     String? fontName,
     String? description,
     Revision? revision,
@@ -91,8 +92,15 @@ class OpenTypeFont implements BinaryCodable {
     final ascender = unitsPerEm - baselineExtension;
     final descender = -baselineExtension;
 
+    final NormalGlyphs normalGlyphs = NormalGlyphs(
+      glyphNormalList,
+      ascender - kDefaultBaselineExtension,
+      -kDefaultBaselineExtension,
+    );
+
     final resizedGlyphList = _resizeAndCenter(
       glyphList,
+      normalGlyphs,
       ascender: normalize ? ascender : null,
       descender: normalize ? descender : null,
       fontHeight: normalize ? null : unitsPerEm,
@@ -109,10 +117,40 @@ class OpenTypeFont implements BinaryCodable {
 
     // If normalization is off every custom glyph's size equals unitsPerEm
     final customGlyphMetricsList = normalize
-        ? resizedGlyphList.map((g) => g.metrics).toList()
-        : List.filled(
-            resizedGlyphList.length, GenericGlyphMetrics.square(unitsPerEm));
-
+        ? resizedGlyphList
+            .map((g) => (glyphNormalList != null &&
+                    glyphNormalList.isNotEmpty &&
+                    glyphNormalList.contains(g))
+                ? g.metrics
+                : GenericGlyphMetrics(
+                    0,
+                    g.metrics.xMax,
+                    0,
+                    unitsPerEm,
+                  ))
+            .toList()
+        :
+        // List.filled(
+        //   resizedGlyphList.length, GenericGlyphMetrics.square(unitsPerEm));
+        //   resizedGlyphList.length, GenericGlyphMetrics.rectangle(unitsPerEm, ));
+        resizedGlyphList
+            .map((g) => (glyphNormalList != null &&
+                    glyphNormalList.isNotEmpty &&
+                    glyphNormalList.contains(g))
+                ? g.metrics
+                : GenericGlyphMetrics(
+                    0,
+                    g.metrics.xMax,
+                    0,
+                    unitsPerEm,
+                  ))
+            // .map((g) => GenericGlyphMetrics(
+            //       0,
+            //       g.metrics.xMax,
+            //       0,
+            //       unitsPerEm,
+            //     ))
+            .toList();
     final glyphMetricsList = [
       ...defaultGlyphMetricsList,
       ...customGlyphMetricsList,
@@ -258,12 +296,28 @@ class OpenTypeFont implements BinaryCodable {
 
   // TODO: I don't like this. Refactor it later. Use "strategy" or something.
   static List<GenericGlyph> _resizeAndCenter(
-    List<GenericGlyph> glyphList, {
+    List<GenericGlyph> glyphList,
+    NormalGlyphs normalGlyphs, {
     int? ascender,
     int? descender,
     int? fontHeight,
   }) {
     return glyphList.map((g) {
+      if ((normalGlyphs.glyphNormalList != null) &&
+          normalGlyphs.ascender != null &&
+          normalGlyphs.descender != null &&
+          normalGlyphs.containsGlyph(g)) {
+        return g
+            .resize(
+              ascender: normalGlyphs.ascender,
+              descender: normalGlyphs.descender,
+              ratioX: g.metadata.ratioX,
+              ratioY: g.metadata.ratioY,
+            )
+            .center(normalGlyphs.ascender!, normalGlyphs.descender!,
+                g.metadata.offset ?? 0);
+      }
+
       if (fontHeight != null) {
         // Not normalizing glyphs, just resizing them according to unitsPerEm
         return g.resize(
@@ -294,5 +348,22 @@ class OpenTypeFont implements BinaryCodable {
               (kUnicodePrivateUseAreaStart + i);
       // kUnicodePrivateUseAreaStart + i;
     }
+  }
+}
+
+class NormalGlyphs {
+  NormalGlyphs(this.glyphNormalList, this.ascender, this.descender);
+
+  List<GenericGlyph>? glyphNormalList;
+  int? ascender;
+  int? descender;
+
+  bool containsGlyph(GenericGlyph glyph) {
+    for (final GenericGlyph normal in glyphNormalList ?? []) {
+      if (glyph.metadata.name == normal.metadata.name) {
+        return true;
+      }
+    }
+    return false;
   }
 }
