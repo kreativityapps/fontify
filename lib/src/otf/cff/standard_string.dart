@@ -1,4 +1,4 @@
-part of fontify.otf.cff;
+part of '../table/cff.dart';
 
 final _cffStandardStringCount = _kCffStandardStringList.length;
 

@@ -106,14 +106,34 @@ class OpenTypeFont implements BinaryCodable {
       fontHeight: normalize ? null : unitsPerEm,
     );
 
+    final List<int?> seenCharCodes = [];
     final defaultGlyphList = generateDefaultGlyphList(ascender);
+    for (final el in resizedGlyphList) {
+      seenCharCodes.add(el.metadata.charCode);
+    }
+    final List<GenericGlyph> finalDefaultGlyphList = [];
+    for (final el in defaultGlyphList) {
+      if (!seenCharCodes.contains(el.metadata.charCode)) {
+        finalDefaultGlyphList.add(el);
+      }
+    }
+
     final fullGlyphList = [
-      ...defaultGlyphList,
+      ...finalDefaultGlyphList,
       ...resizedGlyphList,
     ];
 
+    fullGlyphList.sort((a, b) {
+      if (a.metadata.charCode == null && b.metadata.charCode == null) {
+        return 0;
+      }
+      if (a.metadata.charCode == null) return -1;
+      if (b.metadata.charCode == null) return 1;
+      return a.metadata.charCode!.compareTo(b.metadata.charCode!);
+    });
+
     final defaultGlyphMetricsList =
-        defaultGlyphList.map((g) => g.metrics).toList();
+        finalDefaultGlyphList.map((g) => g.metrics).toList();
 
     // If normalization is off every custom glyph's size equals unitsPerEm
     final customGlyphMetricsList = normalize
