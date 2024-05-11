@@ -98,7 +98,7 @@ class OpenTypeFont implements BinaryCodable {
       -kDefaultBaselineExtension,
     );
 
-    final resizedGlyphList = _resizeAndCenter(
+    final preResizedGlyphList = _resizeAndCenter(
       glyphList,
       normalGlyphs,
       ascender: normalize ? ascender : null,
@@ -107,19 +107,19 @@ class OpenTypeFont implements BinaryCodable {
     );
 
     final List<int?> seenCharCodes = [];
+    final List<GenericGlyph> resizedGlyphList = [];
     final defaultGlyphList = generateDefaultGlyphList(ascender);
-    for (final el in resizedGlyphList) {
+    for (final el in defaultGlyphList) {
       seenCharCodes.add(el.metadata.charCode);
     }
-    final List<GenericGlyph> finalDefaultGlyphList = [];
-    for (final el in defaultGlyphList) {
+    for (final el in preResizedGlyphList) {
       if (!seenCharCodes.contains(el.metadata.charCode)) {
-        finalDefaultGlyphList.add(el);
+        resizedGlyphList.add(el);
       }
     }
 
     final fullGlyphList = [
-      ...finalDefaultGlyphList,
+      ...defaultGlyphList,
       ...resizedGlyphList,
     ];
 
@@ -133,7 +133,7 @@ class OpenTypeFont implements BinaryCodable {
     });
 
     final defaultGlyphMetricsList =
-        finalDefaultGlyphList.map((g) => g.metrics).toList();
+        defaultGlyphList.map((g) => g.metrics).toList();
 
     // If normalization is off every custom glyph's size equals unitsPerEm
     final customGlyphMetricsList = normalize

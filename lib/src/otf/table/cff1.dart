@@ -177,7 +177,10 @@ class CFF1Table extends CFFTable implements CalculatableOffsets {
     int putStringInIndex(String string) {
       String finalString = string;
       if (!ascii.hasMatch(finalString)) {
-        finalString = 'Non-ascii character';
+        final int codePoint = finalString.codeUnitAt(0);
+        final String hexCode =
+            codePoint.toRadixString(16).padLeft(4, '0').toUpperCase();
+        finalString = 'uni$hexCode';
       }
       stringIndexDataList.add(Uint8List.fromList(finalString.codeUnits));
       sidList.add(sidIndex);
