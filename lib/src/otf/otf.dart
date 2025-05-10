@@ -121,16 +121,18 @@ class OpenTypeFont implements BinaryCodable {
     final fullGlyphList = [
       ...defaultGlyphList,
       ...resizedGlyphList,
-    ];
-
-    fullGlyphList.sort((a, b) {
-      if (a.metadata.charCode == null && b.metadata.charCode == null) {
-        return 0;
-      }
-      if (a.metadata.charCode == null) return -1;
-      if (b.metadata.charCode == null) return 1;
-      return a.metadata.charCode!.compareTo(b.metadata.charCode!);
-    });
+    ]..sort((a, b) {
+        if (a.metadata.charCode == null && b.metadata.charCode == null) {
+          return 0;
+        }
+        if (a.metadata.charCode == null) {
+          return -1;
+        }
+        if (b.metadata.charCode == null) {
+          return 1;
+        }
+        return a.metadata.charCode!.compareTo(b.metadata.charCode!);
+      });
 
     final defaultGlyphMetricsList =
         defaultGlyphList.map((g) => g.metrics).toList();

@@ -1,4 +1,4 @@
-library fontify.common;
+library;
 
 export 'common/api.dart';
 export 'common/generic_glyph.dart';

@@ -1,3 +1,3 @@
-library fontify.svg;
+library;
 
 export 'svg/svg.dart';

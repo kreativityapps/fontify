@@ -1,4 +1,4 @@
-library fontify;
+library;
 
 export 'src/common.dart';
 export 'src/otf.dart';
